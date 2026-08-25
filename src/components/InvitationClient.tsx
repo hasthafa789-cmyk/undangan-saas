@@ -85,21 +85,27 @@ export default function InvitationClient({ invitation }: { invitation: any }) {
       )}
 
       {/* --- ISI UNDANGAN (Muncul setelah dibuka) --- */}
-      <main className={`bg-stone-50 transition-opacity duration-1000 ${isOpened ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
+      {/* Logika Tema: Jika tema 'dark', background jadi slate-900 (gelap). Jika bukan, tetap stone-50 (terang) */}
+      <main className={`transition-opacity duration-1000 ${isOpened ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'} ${invitation.theme === 'dark' ? 'bg-slate-900 text-white' : 'bg-stone-50 text-stone-800'}`}>
         
-        {/* BAGIAN 1: HEADER (Nama & Tanggal) */}
+        {/* BAGIAN 1: HEADER */}
         <section className="min-h-screen flex flex-col items-center justify-center text-center p-6">
-          <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="max-w-md w-full bg-white p-10 rounded-t-[5rem] shadow-xl border border-stone-100">
-            <p className="text-sm tracking-widest text-stone-500 mb-6 uppercase font-semibold">You are invited</p>
-            <h1 className="text-6xl font-serif text-stone-800 mb-4">{invitation.groom_name}</h1>
-            <span className="text-4xl font-serif italic text-stone-300 block mb-4">&</span>
-            <h1 className="text-6xl font-serif text-stone-800 mb-8">{invitation.bride_name}</h1>
-            <div className="w-16 h-[1px] bg-stone-300 mx-auto mb-8"></div>
-            <p className="text-xl text-stone-600">
+          <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }} 
+            // Ubah warna kotak berdasarkan tema
+            className={`max-w-md w-full p-10 rounded-t-[5rem] shadow-xl border ${invitation.theme === 'dark' ? 'bg-slate-800 border-slate-700' : 'bg-white border-stone-100'}`}
+          >
+            <p className={`text-sm tracking-widest mb-6 uppercase font-semibold ${invitation.theme === 'dark' ? 'text-slate-400' : 'text-stone-500'}`}>You are invited</p>
+            <h1 className="text-6xl font-serif mb-4">{invitation.groom_name}</h1>
+            <span className={`text-4xl font-serif italic block mb-4 ${invitation.theme === 'dark' ? 'text-slate-600' : 'text-stone-300'}`}>&</span>
+            <h1 className="text-6xl font-serif mb-8">{invitation.bride_name}</h1>
+            <div className={`w-16 h-[1px] mx-auto mb-8 ${invitation.theme === 'dark' ? 'bg-slate-600' : 'bg-stone-300'}`}></div>
+            <p className={`text-xl ${invitation.theme === 'dark' ? 'text-slate-300' : 'text-stone-600'}`}>
               {invitation.event_date || 'Menyusul'}
             </p>
           </motion.div>
         </section>
+        
+        {/* ... (Anda bisa melakukan hal yang sama untuk bagian Galeri dan Buku Tamu di bawahnya dengan menambahkan kondisi serupa) ... */}
 
         {/* BAGIAN 2: GALERI FOTO */}
         <section className="py-20 px-6 bg-white">
